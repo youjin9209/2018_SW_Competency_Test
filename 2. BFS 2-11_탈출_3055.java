@@ -4,6 +4,7 @@ https://www.acmicpc.net/problem/3055
 조심해야할것 
 1) 출발점 여러개일 때 : queue에 다 넣고 시작 
 2) string 비교할때 무조건 equals 로 !
+3) check 왠만해선 쓰지말고 그냥 dist 로 퉁치자 
 */
 import java.util.Arrays;
 import java.util.LinkedList;
