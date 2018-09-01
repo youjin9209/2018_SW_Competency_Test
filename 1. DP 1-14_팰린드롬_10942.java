@@ -7,20 +7,23 @@ import java.util.Scanner;
 
 public class bf_1_14_팰린드롬_10942 {
 	public static int palindrome(int[] a, int[][] d, int s, int e) {
-        if(s == e) 
+        // 1) 종료조건 
+	if(s == e) // 문자열 길이 : 1 
             return 1;
-        if (s+1 == e) {
+        if (s+1 == e) { // 문자열 길이 : 2
             if (a[s] == a[e])
                 return 1;
             else
                 return 0;
         }
-        if(d[s][e] != -1)  // memo 
+        // 2) memo 
+        if(d[s][e] != -1)  
             return d[s][e];
+        // 3) 재귀 불러 
         if (a[s] != a[e])
             return 0;
         else 
-            return d[s][e] = palindrome(a, d, s+1, e-1);
+            return d[s][e] = palindrome(a, d, s+1, e-1); // 범위 좁혀가며 
     }
     
     public static void main(String[] args) {
