@@ -1,6 +1,9 @@
 /*
 문제 링크 
 https://www.acmicpc.net/problem/9376
+왜 Deque를 쓰는가 ?
+: 문을 열 때, 안 열 때 -> 2가지 케이스로 나뉨
+: 최대한 문을 안 열면서 나가야한다. (최소개수를 구해야하니까) 그래서 문 여는 거를 addLast로 !
 */
 import java.util.ArrayDeque;
 import java.util.Arrays;
