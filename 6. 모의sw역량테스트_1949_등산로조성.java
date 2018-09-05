@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 class Pair {
@@ -10,14 +11,15 @@ class Pair {
 		this.y = y;
 	}
 }
-class 모의sw역량테스트_1949_등산로조성 {
-	static int[][] map;
+public class 모의sw역량테스트_1949_등산로조성 {
+	static int[][] map = new int[8][8];
 	static int N;
 	static int K;
 	static int[] dx = {1, -1, 0, 0};
 	static int[] dy = {0, 0, 1, -1};
+	static int[][] dist = new int[8][8];
+	static int[][] d = new int[8][8];
 	public static int bfs(int startX, int startY) {
-		int[][] dist = new int[N][N];
 		Queue<Pair> queue = new LinkedList<Pair>();
 		queue.add(new Pair(startX, startY));
 		dist[startX][startY] = 1;
@@ -29,7 +31,6 @@ class 모의sw역량테스트_1949_등산로조성 {
 			for (int i = 0; i < 4; i++) {
 				int nx = x + dx[i];
 				int ny = y + dy[i];
-				
 				if (nx >= 0 && nx < N && ny >= 0 && ny < N) {
 					if (map[nx][ny] >= map[x][y]) continue;
 					queue.add(new Pair(nx, ny));
@@ -48,7 +49,6 @@ class 모의sw역량테스트_1949_등산로조성 {
 			String[] line = bf.readLine().split(" ");
 			N = Integer.parseInt(line[0]);
 			K = Integer.parseInt(line[1]);
-			map = new int[N][N];
 			int max = Integer.MIN_VALUE;
 			for (int i = 0; i < N; i++) {
 				String[] token = bf.readLine().split(" ");
@@ -60,15 +60,16 @@ class 모의sw역량테스트_1949_등산로조성 {
 				}
 			}
 			int result = 0;
-			// 다깎아 놓고 시작 
 			int cnt = 0;
-			for (int i = 0; i < N; i++) {
+			for (int i = 0; i < N; i++) { // 다깎아 놓고 시작 
 				for (int j = 0; j < N; j++) {
 					for (int h = 0; h <= K; h++) {
 						map[i][j] -= h; // 깎고 
 						cnt = bfs(i, j);
 						// (bfs돌린 x,y : cnt) + (최고 높이 봉우리 까지 : maxAdd)
-						int[][] d = new int[N][N];
+						for (int q = 0; q < N; q++) {
+							Arrays.fill(d[q], 0);
+						}
 						Queue<Pair> queue = new LinkedList<Pair>();
 						queue.add(new Pair(i, j));
 						int maxAdd = Integer.MIN_VALUE;
