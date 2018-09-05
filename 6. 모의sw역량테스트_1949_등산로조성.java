@@ -10,8 +10,7 @@ class Pair {
 		this.y = y;
 	}
 }
-
-public class 모의sw역량테스트_1949_등산로조성 {
+class 모의sw역량테스트_1949_등산로조성 {
 	static int[][] map;
 	static int N;
 	static int K;
@@ -22,7 +21,7 @@ public class 모의sw역량테스트_1949_등산로조성 {
 		Queue<Pair> queue = new LinkedList<Pair>();
 		queue.add(new Pair(startX, startY));
 		dist[startX][startY] = 1;
-		int result = Integer.MIN_VALUE;
+		int result = 0;
 		while (!queue.isEmpty()) {
 			Pair p = queue.remove();
 			int x = p.x;
@@ -60,7 +59,7 @@ public class 모의sw역량테스트_1949_등산로조성 {
 					}
 				}
 			}
-			int result = Integer.MIN_VALUE;
+			int result = 0;
 			// 다깎아 놓고 시작 
 			int cnt = 0;
 			for (int i = 0; i < N; i++) {
@@ -90,6 +89,8 @@ public class 모의sw역량테스트_1949_등산로조성 {
 								}
 							}
 						}
+						if (cnt == 0)
+							cnt++;
 						cnt += maxAdd;
 						if (result < cnt)
 							result = cnt;
