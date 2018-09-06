@@ -11,7 +11,7 @@ class Pair {
 		this.y = y;
 	}
 }
-public class 모의sw역량테스트_1949_등산로조성 {
+class Solution {
 	static int[][] map = new int[8][8];
 	static int N;
 	static int K;
@@ -19,8 +19,8 @@ public class 모의sw역량테스트_1949_등산로조성 {
 	static int[] dy = {0, 0, 1, -1};
 	static int[][] dist = new int[8][8];
 	static int[][] d = new int[8][8];
-	public static int bfs(int startX, int startY) {
-		Queue<Pair> queue = new LinkedList<Pair>();
+	static Queue<Pair> queue = new LinkedList<Pair>();
+	public static int bfs (int startX, int startY) {
 		queue.add(new Pair(startX, startY));
 		dist[startX][startY] = 1;
 		int result = 0;
@@ -70,7 +70,6 @@ public class 모의sw역량테스트_1949_등산로조성 {
 						for (int q = 0; q < N; q++) {
 							Arrays.fill(d[q], 0);
 						}
-						Queue<Pair> queue = new LinkedList<Pair>();
 						queue.add(new Pair(i, j));
 						int maxAdd = Integer.MIN_VALUE;
 						while (!queue.isEmpty()) {
