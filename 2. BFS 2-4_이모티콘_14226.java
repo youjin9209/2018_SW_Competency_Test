@@ -12,6 +12,13 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+class Word {
+	int s, c;
+	Word (int s, int c) {
+		this.s = s;
+		this.c = c;
+	}
+}
 public class bf_2_4_이모티콘_14226 {
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
@@ -20,31 +27,28 @@ public class bf_2_4_이모티콘_14226 {
 		for (int i = 0; i <= N; i++) {
 			Arrays.fill(d[i], -1);
 		}
-		Queue<Integer> queue = new LinkedList<Integer>();
+		Queue<Word> queue = new LinkedList<Word>();
 		// s = 1, c = 0
+		queue.add(new Word(1, 0));
 		d[1][0] = 0;
-		queue.add(1);
-		queue.add(0);
 		while (!queue.isEmpty()) {
-			int s = queue.remove();
-			int c = queue.remove();
-			// 1) ctrl + c
+			Word w = queue.remove();
+			int s = w.s;
+			int c = w.c;
+			// 1) Ctrl + C
 			if (d[s][s] == -1) {
 				d[s][s] = d[s][c] + 1;
-				queue.add(s);
-				queue.add(s);
+				queue.add(new Word(s, s));
 			}
-			// 2) ctrl + v
+			// 2) Ctrl + V
 			if (s+c <= N && d[s+c][c] == -1) {
 				d[s+c][c] = d[s][c] + 1;
-				queue.add(s+c);
-				queue.add(c);
+				queue.add(new Word(s+c, c));
 			}
-			// 3) ctrl + d
+			// 3) Ctrl + D
 			if (s-1 >= 0 && d[s-1][c] == -1) {
 				d[s-1][c] = d[s][c] + 1;
-				queue.add(s-1);
-				queue.add(c);
+				queue.add(new Word(s-1, c));
 			}
 		}
 		int ans = -1;
