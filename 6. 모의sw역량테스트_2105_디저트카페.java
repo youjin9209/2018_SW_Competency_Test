@@ -13,33 +13,42 @@ public class Solution_2105_디저트카페 {
 	static int startX;
 	static int startY;
 	public static void dfs(int x, int y, int dir, int sum) {
+		// 1. 제한조건 check 
 		if (x < 0 || x >= N || y < 0 || y >= N) return;
-		if ((x != startX && y != startY)&&dessert[map[x][y]]) return;
+		if (dessert[map[x][y]]) {
+			if (!(x == startX && y == startY))
+				return;
+		}
 		if(check[x][y]) return;
 		
-		// 처음지점 다시 돌아왔을 때 - 최대값 갱신 
+		// 2. 처음지점 다시 돌아왔을 때 - 최대값 갱신 
 		if (dir == 3 && startX == x && startY == y) {
 			if (max < sum)
 				max = sum;
 			return;
 		}
+		// 3. check[][], dessert, sum 값 
 		if (x != startX && y != startY)
 			check[x][y] = true;
 		dessert[map[x][y]] = true;
 		sum += 1;
+		// 4. 같은방향으로 go straight (얘가 먼저간다 )
 		int nx, ny;
 		if (dir < 4) {
 			nx = x + dx[dir];
 			ny = y + dy[dir];
 			dfs(nx, ny, dir, sum);
 		}
+		// 4. 다른방향으로 go 
 		if (dir + 1 < 4) {
 			nx = x + dx[dir+1];
 			ny = y + dy[dir+1];
 			dfs(nx, ny, dir+1, sum);
 		}
+		// 5. backtracking 해야하니까 false 시켜 
 		dessert[map[x][y]] = false;
 		check[x][y] = false;
+		sum -= 1;
 	}
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
@@ -64,7 +73,6 @@ public class Solution_2105_디저트카페 {
 				}
 			}
 			System.out.println("#"+t+" "+max);
-			max = -1;
 		}
 	}
 }
