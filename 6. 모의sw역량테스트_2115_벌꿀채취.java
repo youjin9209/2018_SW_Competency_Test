@@ -54,6 +54,7 @@ public class Solution_2115_벌꿀채취 {
 			// 최대값 갱신 
 			ComboInfo first = flist.get(0);
 			ComboInfo second = flist.get(1);
+			System.out.println("1: "+first.index +", "+ first.value + "    " +"2: "+second.index +", "+ second.value);
 			if (Math.abs(first.index - second.index) >= M) {
 				if (finalMax < first.value + second.value) {
 					finalMax = first.value + second.value;
@@ -61,9 +62,11 @@ public class Solution_2115_벌꿀채취 {
 			}
 		}
 		if (N*N+(M-1)*N == index) return;
-		flist.add(new ComboInfo(a[index], index));
-		chooseMax(index + 1, cnt + 1, K);
-		flist.remove(flist.size() - 1);
+		if (a[index] != 0) {
+			flist.add(new ComboInfo(a[index], index));
+			chooseMax(index + 1, cnt + 1, K);
+			flist.remove(flist.size() - 1);
+		}
 		chooseMax(index + 1 , cnt, K);
 	}
 	public static void main(String[] args) throws NumberFormatException, IOException {
@@ -98,6 +101,12 @@ public class Solution_2115_벌꿀채취 {
 						}
 					}
 				}
+			}
+			for (int i = 0; i < N; i++) {
+				for (int j = 0; j < N+(M-1); j++) {
+					System.out.print(dist[i][j] + " ");
+				}
+				System.out.println();
 			}
 			int result = 0;
 			// 2) 겹치지 않는 2개 pick 
