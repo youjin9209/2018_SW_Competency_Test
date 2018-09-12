@@ -31,7 +31,6 @@ public class Solution_2115_벌꿀채취 {
 		int result = 0;
 		int arrSum = 0;
 		if (cnt == K) {
-			// 제곱의 합 최대값 갱신 
 			for (int num : hlist) {
 				arrSum += num;
 			}
@@ -51,15 +50,14 @@ public class Solution_2115_벌꿀채취 {
 	}
 	public static void chooseMax (int index, int cnt, int K) {
 		if (cnt == K) {
-			// 최대값 갱신 
 			ComboInfo first = flist.get(0);
 			ComboInfo second = flist.get(1);
-			System.out.println("1: "+first.index +", "+ first.value + "    " +"2: "+second.index +", "+ second.value);
 			if (Math.abs(first.index - second.index) >= M) {
 				if (finalMax < first.value + second.value) {
 					finalMax = first.value + second.value;
 				}
 			}
+			return;
 		}
 		if (N*N+(M-1)*N == index) return;
 		if (a[index] != 0) {
@@ -101,12 +99,6 @@ public class Solution_2115_벌꿀채취 {
 						}
 					}
 				}
-			}
-			for (int i = 0; i < N; i++) {
-				for (int j = 0; j < N+(M-1); j++) {
-					System.out.print(dist[i][j] + " ");
-				}
-				System.out.println();
 			}
 			int result = 0;
 			// 2) 겹치지 않는 2개 pick 
