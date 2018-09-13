@@ -1,8 +1,7 @@
 /*
 문제 링크 
 https://www.swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AV5V4A46AdIDFAWu
-팁 : 각좌표마다 수익 저장하고 
-안겹치는걸로 2개 뽑기  
+팁 : 각좌표마다 수익 저장하고 안겹치는걸로 2개 뽑기  
 */
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -101,7 +100,9 @@ public class Solution_2115_벌꿀채취 {
 				}
 			}
 			int result = 0;
-			// 2) 겹치지 않는 2개 pick 
+			// 2) 겹치지 않는 2개 pick - dist[][] 를 a[]로 쭉 늘려서 2개 뽑는다 . 
+			// 다른 행이라면 제약사항 없어지니까 각 행에다가 0 을 M-1 개만큼 추가해주면 된다. 
+			// 각 행의 맨끝에다가 M-1개만큼 0을 추가해주게 되면 조합 2개 고를때 열의 차이가 M이상 나는 것만 제한해줘도 ㅇㅋ  
 			int idx = 0;
 			a = new int[N*N+(M-1)*N];
 			for (int i = 0; i < N; i++) {
