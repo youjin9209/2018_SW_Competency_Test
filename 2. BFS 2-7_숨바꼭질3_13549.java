@@ -29,6 +29,7 @@ public class bf_2_7_숨바꼭질3_13549 {
 					dist[2*node] = dist[node];
 				}
 			}
+			// 왜 node-1 이 먼저 가야할까 ? 
 			if (node - 1 >= 0) {
 				if (!check[node - 1]) {
 					queue.add(node - 1);
