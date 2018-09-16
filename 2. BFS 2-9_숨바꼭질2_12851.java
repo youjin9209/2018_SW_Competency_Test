@@ -2,6 +2,7 @@
 문제 링크 
 https://www.acmicpc.net/problem/12851
 check로 왜안하는지 잘 생각하기 - 경로가 겹칠수도 있으니까 !
+-> 방문한거일 경우 : 현재 node의 cnt를 그대로 더해준다. 방법의 가지수니까 !!
 */
 import java.util.LinkedList;
 import java.util.Queue;
