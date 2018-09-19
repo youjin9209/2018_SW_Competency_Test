@@ -54,25 +54,22 @@ public class Solution_2282_미생물격리 {
 			for (int m = 1; m <= M; m++) {
 				for (int k = 0; k <= K-1; k++) {
 					MicroInfo mi = a.get(k);
-					int nx = mi.x + dx[mi.dir];
-					int ny = mi.y + dy[mi.dir];
-					if (nx >= 0 && nx < N && ny >= 0 && ny < N) { 
-						dist[nx][ny]++;
-						mi.x = nx;
-						mi.y = ny;
-						// 3) 약품 셀에 왔을 경우 - 군집 내 미생물의 절반이 죽고, 이동방향이 반대로 바뀜 
-						if (map[nx][ny] == 1) {
-							int ncnt = (mi.cnt)/2;
-							mi.cnt = ncnt;
-							if (mi.cnt == 0) {
-								mi.dir = 0;
-							} else {
-								if (mi.dir == 1) mi.dir = 2;
-								else if (mi.dir == 2) mi.dir = 1;
-								else if (mi.dir == 3) mi.dir = 3;
-								else if (mi.dir == 4) mi.dir = 4;
-							}
+					mi.x += dx[mi.dir];
+					mi.y += dy[mi.dir];
+					// 3) 약품 셀에 왔을 경우 - 군집 내 미생물의 절반이 죽고, 이동방향이 반대로 바뀜 
+					if (map[mi.x][mi.y] == 1) {
+						int ncnt = (mi.cnt)/2;
+						mi.cnt = ncnt;
+						if (mi.cnt == 0) {
+							mi.dir = 0;
+						} else {
+							if (mi.dir == 1) mi.dir = 2;
+							else if (mi.dir == 2) mi.dir = 1;
+							else if (mi.dir == 3) mi.dir = 4;
+							else if (mi.dir == 4) mi.dir = 3;
 						}
+					} else {
+						dist[mi.x][mi.y]++;
 					}
 				}
 				// 4) 두개 이상의 군집이 한 셀에 모일 경우 
