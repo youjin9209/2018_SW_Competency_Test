@@ -48,19 +48,28 @@ public class Solution_2282_미생물격리 {
 					MicroInfo mi = a.get(k);
 					int nx = mi.x + dx[mi.dir];
 					int ny = mi.y + dy[mi.dir];
+					mi.x = nx;
+					mi.y = ny;
 					// 3) 약품 셀에 왔을 경우 - 군집 내 미생물의 절반이 죽고, 이동방향이 반대로 바뀜 
 					if (map[nx][ny] == 1) {
 						int ncnt = (mi.cnt)/2;
-						//int ndir = ;
+						mi.cnt = ncnt;
+						if (ncnt == 0) {
+							mi.dir = 0;
+						} else {
+							if (mi.dir == 1) mi.dir = 2;
+							else if (mi.dir == 2) mi.dir = 1;
+							else if (mi.dir == 3) mi.dir = 3;
+							else if (mi.dir == 4) mi.dir = 4;
+						}
 					} 
-					// 4) 두개 이상의 군집이 한 셀에 모일 경우 
-					else {
-						
-					}
-					
+				}
+				// 4) 두개 이상의 군집이 한 셀에 모일 경우 
+				// 미생물 수 : sum  / 이동 방향 : max 군집의 이동방향 
+				for (MicroInfo mi : a) {
+					System.out.println(mi.x + " " + mi.y);
 				}
 			}
 		}
 	}
-
 }
