@@ -13,12 +13,11 @@ public class Solution_2117_홈방범서비스 {
 		int endp;
 		// 2-1) k 크기의 마름모 영역 위, 아래 확인 
 		for (int i = 1; i <= k-1; i++) {
-			int up_nextx = x - k + i;
-			int down_nextx = x + k - i;
-			
-			endp = i*2 - 1;
-			nexty = y - endp/2;
-			for (int j = 0; j < endp; j++) {
+			int up_nextx = x - (k - i);
+			int down_nextx = x + (k - i);
+			endp = i - 1;
+			nexty = y - endp;
+			for (int j = 0; j < endp*2 + 1; j++) {
 				// 위 
 				if (up_nextx >= 0 && up_nextx < N && nexty + j  >= 0 && nexty + j < N ) {
 					if (map[up_nextx][nexty + j] == 1) {
@@ -34,9 +33,9 @@ public class Solution_2117_홈방범서비스 {
 			}
 		}
 		// 2-2) k 크기의 마름모 영역 가운데 확인 
-		endp = k*2 - 1;
-		nexty = y - endp/2;
-		for (int i = 0; i < endp; i++) {
+		endp = k - 1;
+		nexty = y - endp;
+		for (int i = 0; i < endp*2 + 1; i++) {
 			if (x >= 0 && x < N && nexty + i >= 0 && nexty + i < N) {
 				if (map[x][nexty+i] == 1) {
 					cnt++;
@@ -52,7 +51,7 @@ public class Solution_2117_홈방범서비스 {
 		Scanner sc = new Scanner(System.in);
 		int T;
 		T=sc.nextInt();
-		// 1) 운영비용 계산 
+		// 1) 운영비용 계산
 		price[1] = 1;
 		for (int i = 2; i <= K + 1; i++)
 			price[i] = i*i + (i-1)*(i-1);
