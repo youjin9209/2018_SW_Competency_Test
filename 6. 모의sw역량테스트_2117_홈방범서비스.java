@@ -54,7 +54,7 @@ public class Solution_2117_홈방범서비스 {
 		T=sc.nextInt();
 		// 1) 운영비용 계산 
 		price[1] = 1;
-		for (int i = 2; i < K + 1; i++)
+		for (int i = 2; i <= K + 1; i++)
 			price[i] = i*i + (i-1)*(i-1);
 		for (int test_case = 1; test_case <= T; test_case++) {
 			N = sc.nextInt();
