@@ -85,20 +85,20 @@ public class Solution_4014_활주로건설 {
 			for (int j = 0; j < N; j++) {
 				boolean col = true;
 				for (int i = 0; i < N; i++) {
-					// 내리막 
-					if (i-1 >= 0 && map[i-1][j] == map[i][j] + 1) { 
-						if (i+(X-1) > N-1) {
+					// 오르막 
+					if (i+1 < N && map[i][j] + 1 == map[i+1][j]) { 
+						if (i-(X-1) < 0) {
 							col = false;
 							break;
 						}
-						if (!isColDecreasing(i, j)) {
+						if (!isColIncreasing(i, j)) {
 							col = false;
 							break;
 						}
 					}
-					// 오르막 
-					if (i-1 >= 0 && map[i-1][j] + 1 == map[i][j]) {
-						if (i-(X-1) < 0) {
+					// 내리막 
+					if (i-1 >= 0 && map[i-1][j] == map[i][j] + 1) {
+						if (i+(X-1) > N-1) {
 							col = false;
 							break;
 						}
