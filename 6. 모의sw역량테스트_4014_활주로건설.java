@@ -57,17 +57,17 @@ public class Solution_4014_활주로건설 {
 				for (int j = 0; j < N; j++) {
 					// 내리막 
 					if (j-1 >= 0) {
-						if (map[i][j-1] > map[i][j] + 1) {
+						if (map[i][j-1] > map[i][j] + 1) { // 차이가 2 이상일 때 
 							row = false;
 							break;
 						}
-						if (map[i][j-1] == map[i][j] + 1) {
-							if (j+(X-1) > N-1) {
+						if (map[i][j-1] == map[i][j] + 1) { // 차이가 1일 때 
+							if (j+(X-1) > N-1) { // 경사로가 영역 밖 삐져나갈 때 
 								row = false;
 								break;
 							}
 							if (isRowDecreasing(i, j)) {
-								for (int q = 0 ; q < X; q++) {
+								for (int q = 0 ; q < X; q++) { // 경사로 깔았으면 깐 거 표시해줘야함 : 중복되면 안돼 
 									rowFlag[i][j+q] = true;
 								}
 							} else if (!isRowDecreasing(i, j)) {
