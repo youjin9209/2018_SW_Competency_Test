@@ -45,35 +45,45 @@ public class Solution_4014_활주로건설 {
 			X = sc.nextInt();
 			map = new int[N][N];
 			int result = 0;
-			for (int i = 0; i < N; i++) {
-				for (int j = 0; j < N; j++) {
+			for (int i = 0; i < N; i++)
+				for (int j = 0; j < N; j++)
 					map[i][j] = sc.nextInt();
-				}
-			}
 			// 1) row check : -> 
 			for (int i = 0; i < N; i++) {
 				boolean row = true;
 				for (int j = 0; j < N; j++) {
 					// 내리막 
-					if (j-1 >= 0 && map[i][j-1] == map[i][j] + 1) {
-						if (j+(X-1) > N-1) {
+					if (j-1 >= 0) {
+						if (map[i][j-1] > map[i][j] + 1) {
 							row = false;
 							break;
 						}
-						if (!isRowDecreasing(i, j)) {
-							row = false;
-							break;
+						if (map[i][j-1] == map[i][j] + 1) {
+							if (j+(X-1) > N-1) {
+								row = false;
+								break;
+							}
+							if (!isRowDecreasing(i, j)) {
+								row = false;
+								break;
+							}
 						}
 					}
 					// 오르막 
-					if (j+1 < N && map[i][j] + 1 == map[i][j+1]) {
-						if (j-(X-1) < 0) {
+					if (j+1 < N) {
+						if (map[i][j] + 1 < map[i][j+1]) {
 							row = false;
 							break;
 						}
-						if (!isRowIncreasing(i, j)) {
-							row = false;
-							break;
+						if (map[i][j] + 1 == map[i][j+1]) {
+							if (j-(X-1) < 0) {
+								row = false;
+								break;
+							}
+							if (!isRowIncreasing(i, j)) {
+								row = false;
+								break;
+							}
 						}
 					}
 				}
@@ -86,25 +96,37 @@ public class Solution_4014_활주로건설 {
 				boolean col = true;
 				for (int i = 0; i < N; i++) {
 					// 오르막 
-					if (i+1 < N && map[i][j] + 1 == map[i+1][j]) { 
-						if (i-(X-1) < 0) {
+					if (i+1 < N) {
+						if (map[i][j] + 1 < map[i+1][j]) {
 							col = false;
 							break;
 						}
-						if (!isColIncreasing(i, j)) {
-							col = false;
-							break;
+						if (map[i][j] + 1 == map[i+1][j]) {
+							if (i-(X-1) < 0) {
+								col = false;
+								break;
+							}
+							if (!isColIncreasing(i, j)) {
+								col = false;
+								break;
+							}
 						}
 					}
 					// 내리막 
-					if (i-1 >= 0 && map[i-1][j] == map[i][j] + 1) {
-						if (i+(X-1) > N-1) {
+					if (i-1 >= 0) {
+						if (map[i-1][j] > map[i][j] + 1) {
 							col = false;
 							break;
 						}
-						if (!isColDecreasing(i, j)) {
-							col = false;
-							break;
+						if (map[i-1][j] == map[i][j] + 1) {
+							if (i+(X-1) > N-1) {
+								col = false;
+								break;
+							}
+							if (!isColDecreasing(i, j)) {
+								col = false;
+								break;
+							}
 						}
 					}
 				}
