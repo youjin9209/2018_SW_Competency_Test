@@ -1,7 +1,3 @@
-/*
-
-*/package sw_test;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -23,40 +19,43 @@ class Pair {
 	}
 }
 class Point {
+	ArrayList<Integer> area; 
 	int max, second;
 	int num;
-	int mC, sC;
 	public void setPoint() {
-		mC = 0;
-		sC = 0;
 		max = 0;
 		second = 0;
 		num = 0;
+		area = new ArrayList<Integer>();
 	}
 
-	public void setPoint(int P, int C) {
+	public void setPoint(int P, int C, int i) {
+		boolean flag = false;
+		for (int p = 0; p < area.size(); p++) {
+			if (area.get(p) == i) {
+				flag = true;
+				break;
+			}
+		}
+		if (!flag)
+			area.add(i);
 		if (num == 0) {
-			this.mC = C;
 			this.max = P;
 			this.num += 1;
 		} else if (num == 1) {
 			if (max < P) {
 				second = max;
 				max = P;
-				mC = C;
 			} else {
 				second = P;
-				sC = C;
 			}
 			this.num += 1;
 		} else if (num == 2) {
 			if (max < P) {
 				second = max;
 				max = P;
-				mC = C;
 			} else if (max >= P && P > second) {
 				second = P;
-				sC = C;
 			}
 		}
 	}
@@ -72,7 +71,7 @@ class Main {
 	static int[] dy = {0, 0, 1, 0, -1};
 	static int[][] dist = new int[11][11];
 
-	public static void bfs(int row, int col, int C, int P) {
+	public static void bfs(int row, int col, int C, int P, int bcinfo) {
 		Queue<Pair> queue = new LinkedList<Pair>();
 		boolean[][] check = new boolean[11][11];
 		queue.add(new Pair(row, col));
@@ -87,19 +86,28 @@ class Main {
 				if (nx >= 1 && nx <= 10 && ny >= 1 && ny <= 10) {
 					if (check[nx][ny]) continue;
 					if (dist[nx][ny] != 0) {
-						map[nx][ny].setPoint(P, C);
+						map[nx][ny].setPoint(P, C, bcinfo);
 					} else {
 						queue.add(new Pair(nx, ny));
 						dist[nx][ny] = dist[p.x][p.y] + 1;
-						map[nx][ny].setPoint(P, C);
+						map[nx][ny].setPoint(P, C, bcinfo);
 						check[nx][ny] = true;
 					}
 				}
 			}
 		}
 	}
-	public static boolean IsSameArea (int aX, int aY, int bx, int bY) {
-		return true;
+	public static boolean IsSameRange (int aX, int aY, int bX, int bY) {
+		int sizeA = map[aX][aY].area.size();
+		int sizeB = map[bX][bY].area.size();
+		for (int i = 0; i < sizeA; i++) {
+			for (int j = 0; j < sizeB; j++) {
+				if (map[aX][aY].area.get(i) ==  map[bX][bY].area.get(j)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	public static void main(String args[]) throws Exception {
 		Scanner sc = new Scanner(System.in);
@@ -125,8 +133,8 @@ class Main {
 				int row = sc.nextInt();
 				int C = sc.nextInt();
 				int P = sc.nextInt();
-				map[row][col].setPoint(P, C);
-				bfs(row, col, C, P);
+				map[row][col].setPoint(P, C, i);
+				bfs(row, col, C, P, i);
 			}
 			int aX = 1;
 			int aY = 1;
@@ -136,26 +144,25 @@ class Main {
 			pB = new int[M+1];
 			for (int i = 1; i <= 10; i++) {
 				for (int j = 1; j <= 10; j++) {
-					System.out.print(map[i][j].max+","+map[i][j].second + "  " + map[i][j].mC + " " + map[i][j].sC + "\t");
+					System.out.print(map[i][j].max+","+map[i][j].second + "\t");
 				}
 				System.out.println();
 			}
-
-//			for (int m = 0; m <= M; m++) {
-//				aX += dx[dirA[m]];
-//				aY += dy[dirA[m]];
-//				bX += dx[dirB[m]];
-//				bY += dy[dirB[m]];
-//				if (IsSameArea(aX, aY, bX, bY)) {
-//					if (map[aX][aY].num == 1) {
-//					}
-//					pA[m] = map[aX][aY].max;
-//					pB[m] = map[bX][bY].second;
-//				} else {
-//					pA[m] = map[aX][aY].max;
-//					pB[m] = map[bX][bY].max;
-//				}
-//			}
+			for (int m = 0; m <= M; m++) {
+				aX += dx[dirA[m]];
+				aY += dy[dirA[m]];
+				bX += dx[dirB[m]];
+				bY += dy[dirB[m]];
+				if (IsSameRange(aX, aY, bX, bY)) {
+					if (map[aX][aY].num == 1) {
+					}
+					pA[m] = map[aX][aY].max;
+					pB[m] = map[bX][bY].second;
+				} else {
+					pA[m] = map[aX][aY].max;
+					pB[m] = map[bX][bY].max;
+				}
+			}
 //			for (int m = 0; m <= M; m++) {
 //				System.out.print(m+"\t");
 //			}
