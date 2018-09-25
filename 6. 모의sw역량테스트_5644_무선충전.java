@@ -1,6 +1,4 @@
-package sw_test;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -14,16 +12,17 @@ class Pair {
 }
 class Point {
 	ArrayList<Integer> area;
-	HashMap<Integer, Integer> h;
 	int max, second;
 	int num;
+	int chargeNum1, chargeNum2;
 	public void setPoint() {
 		max = 0;
 		second = 0;
 		num = 0;
+		chargeNum1 = 0;
+		chargeNum2 = 0;
 		area = new ArrayList<Integer>();
 	}
-
 	public void setPoint(int P, int C, int i) {
 		boolean flag = false;
 		for (int p = 0; p < area.size(); p++) {
@@ -36,21 +35,26 @@ class Point {
 			area.add(i);
 		if (num == 0) {
 			this.max = P;
+			this.chargeNum1 = i;
 			this.num += 1;
 		} else if (num == 1) {
 			if (max < P) {
 				second = max;
+				this.chargeNum1 = i;
 				max = P;
 			} else {
 				second = P;
+				this.chargeNum2 = i;
 			}
 			this.num += 1;
 		} else if (num == 2) {
 			if (max < P) {
 				second = max;
 				max = P;
+				this.chargeNum1 = i;
 			} else if (max >= P && P > second) {
 				second = P;
+				this.chargeNum2 = i;
 			}
 		}
 	}
@@ -64,7 +68,7 @@ class Main {
 	static Point[][] map;
 	static int[] dx = {0, -1, 0, 1, 0};
 	static int[] dy = {0, 0, 1, 0, -1};
-
+	static int[] chargeInfo = new int[9];
 	public static void bfs(int row, int col, int C, int P, int bcinfo) {
 		Queue<Pair> queue = new LinkedList<Pair>();
 		boolean[][] check = new boolean[11][11];
@@ -92,12 +96,6 @@ class Main {
 				}
 			}
 		}
-//		for (int i = 1; i <= 10; i++) {
-//			for (int j = 1; j <= 10; j++) {
-//				System.out.print(dist[i][j] + "\t");
-//			}
-//			System.out.println();
-//		}
 	}
 	public static boolean IsSameRange (int aX, int aY, int bX, int bY) {
 		int sizeA = map[aX][aY].area.size();
@@ -137,6 +135,7 @@ class Main {
 				int P = sc.nextInt();
 				map[row][col].setPoint(P, C, i);
 				bfs(row, col, C, P, i);
+				chargeInfo[i] = P;
 			}
 			int aX = 1;
 			int aY = 1;
@@ -144,12 +143,7 @@ class Main {
 			int bY = 10;
 			pA = new int[M+1];
 			pB = new int[M+1];
-//			for (int i = 1; i <= 10; i++) {
-//				for (int j = 1; j <= 10; j++) {
-//					System.out.print(map[i][j].max+","+map[i][j].second + "\t");
-//				}
-//				System.out.println();
-//			}
+
 			for (int m = 0; m <= M; m++) {
 				aX += dx[dirA[m]];
 				aY += dy[dirA[m]];
@@ -173,8 +167,20 @@ class Main {
 							pB[m] = map[bX][bY].max;
 					} else if (map[aX][aY].num > 1 && map[bX][bY].num > 1) {
 						if (map[aX][aY].max == map[bX][bY].max) {
-							pA[m] = map[aX][aY].max;
-							pB[m] = map[bX][bY].second;
+							if (map[aX][aY].chargeNum1 == map[bX][bY].chargeNum1) {
+								int a = map[aX][aY].max + map[bX][bY].second;
+								int b = map[aX][aY].second + map[bX][bY].max;
+								if (a > b) {
+									pA[m] = map[aX][aY].max;
+									pB[m] = map[bX][bY].second;
+								} else {
+									pA[m] = map[aX][aY].second;
+									pB[m] = map[bX][bY].max;
+								}
+							} else {
+								pA[m] = map[aX][aY].max;
+								pB[m] = map[bX][bY].max;
+							}
 						} else {
 							pA[m] = map[aX][aY].max;
 							pB[m] = map[bX][bY].max;
@@ -185,18 +191,6 @@ class Main {
 					pB[m] = map[bX][bY].max;
 				}
 			}
-//			for (int m = 0; m <= M; m++) {
-//				System.out.print(m+"\t");
-//			}
-//			System.out.println();
-//			for (int m = 0; m <= M; m++) {
-//				System.out.print(pA[m]+"\t");
-//			}
-//			System.out.println();
-//			for (int m = 0; m <= M; m++) {
-//				System.out.print(pB[m]+"\t");
-//			}
-//			System.out.println();
 			int ans = 0;
 			for (int m = 0; m <= M; m++) {
 				ans += (pA[m] + pB[m]);
