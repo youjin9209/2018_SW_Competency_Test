@@ -1,12 +1,6 @@
-import java.io.IOException;
-import java.io.InputStreamReader;
+package sw_test;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
-
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -19,7 +13,8 @@ class Pair {
 	}
 }
 class Point {
-	ArrayList<Integer> area; 
+	ArrayList<Integer> area;
+	HashMap<Integer, Integer> h;
 	int max, second;
 	int num;
 	public void setPoint() {
@@ -69,11 +64,11 @@ class Main {
 	static Point[][] map;
 	static int[] dx = {0, -1, 0, 1, 0};
 	static int[] dy = {0, 0, 1, 0, -1};
-	static int[][] dist = new int[11][11];
 
 	public static void bfs(int row, int col, int C, int P, int bcinfo) {
 		Queue<Pair> queue = new LinkedList<Pair>();
 		boolean[][] check = new boolean[11][11];
+		int[][] dist = new int[11][11];
 		queue.add(new Pair(row, col));
 		dist[row][col] = 1;
 		check[row][col] = true;
@@ -86,6 +81,7 @@ class Main {
 				if (nx >= 1 && nx <= 10 && ny >= 1 && ny <= 10) {
 					if (check[nx][ny]) continue;
 					if (dist[nx][ny] != 0) {
+						dist[nx][ny] = dist[p.x][p.y] + 1;
 						map[nx][ny].setPoint(P, C, bcinfo);
 					} else {
 						queue.add(new Pair(nx, ny));
@@ -96,6 +92,12 @@ class Main {
 				}
 			}
 		}
+//		for (int i = 1; i <= 10; i++) {
+//			for (int j = 1; j <= 10; j++) {
+//				System.out.print(dist[i][j] + "\t");
+//			}
+//			System.out.println();
+//		}
 	}
 	public static boolean IsSameRange (int aX, int aY, int bX, int bY) {
 		int sizeA = map[aX][aY].area.size();
@@ -142,22 +144,42 @@ class Main {
 			int bY = 10;
 			pA = new int[M+1];
 			pB = new int[M+1];
-			for (int i = 1; i <= 10; i++) {
-				for (int j = 1; j <= 10; j++) {
-					System.out.print(map[i][j].max+","+map[i][j].second + "\t");
-				}
-				System.out.println();
-			}
+//			for (int i = 1; i <= 10; i++) {
+//				for (int j = 1; j <= 10; j++) {
+//					System.out.print(map[i][j].max+","+map[i][j].second + "\t");
+//				}
+//				System.out.println();
+//			}
 			for (int m = 0; m <= M; m++) {
 				aX += dx[dirA[m]];
 				aY += dy[dirA[m]];
 				bX += dx[dirB[m]];
 				bY += dy[dirB[m]];
 				if (IsSameRange(aX, aY, bX, bY)) {
-					if (map[aX][aY].num == 1) {
+					if (map[aX][aY].num == 1 && map[bX][bY].num == 1) {
+						pA[m] = map[aX][aY].max / 2;
+						pB[m] = map[bX][bY].max / 2;
+					} else if (map[aX][aY].num > 1 && map[bX][bY].num == 1) {
+						if (map[aX][aY].max == map[bX][bY].max)
+							pA[m] = map[aX][aY].second;
+						else 
+							pA[m] = map[aX][aY].max;
+						pB[m] = map[bX][bY].max;
+					} else if (map[aX][aY].num == 1 && map[bX][bY].num > 1) {
+						pA[m] = map[aX][aY].max;
+						if (map[aX][aY].max == map[bX][bY].max)
+							pB[m] = map[bX][bY].second;
+						else 
+							pB[m] = map[bX][bY].max;
+					} else if (map[aX][aY].num > 1 && map[bX][bY].num > 1) {
+						if (map[aX][aY].max == map[bX][bY].max) {
+							pA[m] = map[aX][aY].max;
+							pB[m] = map[bX][bY].second;
+						} else {
+							pA[m] = map[aX][aY].max;
+							pB[m] = map[bX][bY].max;
+						}
 					}
-					pA[m] = map[aX][aY].max;
-					pB[m] = map[bX][bY].second;
 				} else {
 					pA[m] = map[aX][aY].max;
 					pB[m] = map[bX][bY].max;
@@ -175,11 +197,11 @@ class Main {
 //				System.out.print(pB[m]+"\t");
 //			}
 //			System.out.println();
-//			int ans = 0;
-//			for (int m = 0; m <= M; m++) {
-//				ans += (pA[m] + pB[m]);
-//			}
-//			System.out.println("#"+test_case+" "+ans);
+			int ans = 0;
+			for (int m = 0; m <= M; m++) {
+				ans += (pA[m] + pB[m]);
+			}
+			System.out.println("#"+test_case+" "+ans);
 		}
 	}
 }
