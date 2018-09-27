@@ -86,8 +86,8 @@ class Solution_5653_줄기세포배양 {
 										// 두개 이상의 줄기세포가 번식하려 할 때 
 										else if (map[1-CurMap][ni][nj].status == 1) {
 											// 생명력이 높은 줄기세포가 셀을 차지 
-											if (map[1-CurMap][ni][nj].LP < map[CurMap][ni][nj].LP) {
-												map[1-CurMap][ni][nj].LP = map[CurMap][ni][nj].LP;
+											if (map[1-CurMap][ni][nj].LP < map[CurMap][i][j].LP) {
+												map[1-CurMap][ni][nj].LP = map[CurMap][i][j].LP;
 											}
 										}
 									}
