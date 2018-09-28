@@ -43,7 +43,7 @@ class Solution_5653_줄기세포배양 {
 			M = M + K + 2;
 			// 2) process 
 			int CurMap = 0;
-			for (int k = 0; k <= K; k++) {
+			for (int k = 0; k < K; k++) {
 				for (int i = 0; i < N; i++) {
 					for (int j = 0; j < M; j++) {
 						// 2-1) 죽은 세포 일 경우 
@@ -73,7 +73,7 @@ class Solution_5653_줄기세포배양 {
 								// 현재 위치에서 4방향 탐색 
 								for (int idx = 0; idx < 4; idx++) {
 									int ni = i + dx[idx];
-									int nj = j + dy[idx]; 
+									int nj = j + dy[idx];
 									// 줄기세포가 번식하는 방향이 비어있을 경우 
 									if (map[CurMap][ni][nj].status == 0) {
 										// 하나의 줄기세포가 번식하려 할 때 
