@@ -38,9 +38,9 @@ class Solution_5653_줄기세포배양 {
 					}
 				}
 			}
-			// MAX RANGE within K hours 
-			N = N + K + 2;
-			M = M + K + 2;
+			// 최대 가능 영역 : 생명력 1시간일때 -> 2시간마다 1번씩 번식함 
+			N = N + K + 2; // K/2 + N + K/2
+			M = M + K + 2; // K/2 + M + K/2 
 			// 2) process 
 			int CurMap = 0;
 			for (int k = 0; k < K; k++) {
