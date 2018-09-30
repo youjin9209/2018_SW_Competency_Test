@@ -103,7 +103,7 @@ class Solution_5653_줄기세포배양 {
 						}
 					}
 				}
-				// 다음 상태를 저장해놓은 map을 현재 map으로 변경 
+				// 다음 상태를 저장해놓은 map을 현재 map으로 변경 - update 
 				CurMap = 1 - CurMap;
 			}
 			int ans = 0;
