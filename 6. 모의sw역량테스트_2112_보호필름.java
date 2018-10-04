@@ -11,7 +11,6 @@ public class Solution {
 	static int result;
 	static boolean[] colCheck;
 	public static boolean next_permutation (int[] a) {
-		// 7 2 3 6 5 4 1 
 		int i = a.length - 1;
 		while (i > 0 && a[i-1] >= a[i]) {
 			i--;
@@ -102,17 +101,20 @@ public class Solution {
 				} else if (modCount >= 1) {
 					// 1) A (0) 으로 일괄 약품 처리 
 					a = new int[D];
-					Arrays.fill(a, -1);
+					Arrays.fill(a, 2);
 					for (int i = 1; i <= modCount; i++) {
 						a[i-1] = 0;
 					}
 					temp = new int[D][W];
 					do {
-						temp = map;
 						for (int i = 0; i < D; i++) {
 							if (a[i] == 0) {
 								for (int j = 0; j < W; j++) {
 									temp[i][j] = 0;
+								}
+							} else {
+								for (int j = 0; j < W; j++) {
+									temp[i][j] = map[i][j];
 								}
 							}
 						}
@@ -129,12 +131,22 @@ public class Solution {
 						}
 						boolean flag = true;
 						for (int col = 0; col < W; col++) {
-							if (!colCheck[col])
+							if (!colCheck[col]) {
 								flag = false;
+								break;
+							}
 						}
 						if (flag) {
 							flagA = true;
 							break;
+						}
+						// 다시 엎어 치기  
+						for (int i = 0; i < D; i++) {
+							if (a[i] == 0) {
+								for (int j = 0; j < W; j++) {
+									temp[i][j] = map[i][j];
+								}
+							}
 						}
 					} while (next_permutation(a));
 					if (flagA) {
@@ -142,18 +154,21 @@ public class Solution {
 						break;
 					} else if (!flagA) {
 						a = new int[D];
-						Arrays.fill(a, -1);
+						Arrays.fill(a, 2);
 						// 1) B (1) 으로 일괄 약품 처리 
 						for (int i = 1; i <= modCount; i++) {
 							a[i-1] = 1;
 						}
 						temp = new int[D][W];
 						do {
-							temp = map;
 							for (int i = 0; i < D; i++) {
 								if (a[i] == 1) {
 									for (int j = 0; j < W; j++) {
 										temp[i][j] = 1;
+									}
+								} else {
+									for (int j = 0; j < W; j++) {
+										temp[i][j] = map[i][j];
 									}
 								}
 							}
@@ -176,6 +191,13 @@ public class Solution {
 							if (flag) {
 								flagB = true;
 								break;
+							}
+							for (int i = 0; i < D; i++) {
+								if (a[i] == 1) {
+									for (int j = 0; j < W; j++) {
+										temp[i][j] = map[i][j];
+									}
+								}
 							}
 						} while (next_permutation(a));
 						if (flagB) {
