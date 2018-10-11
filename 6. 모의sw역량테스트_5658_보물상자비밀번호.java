@@ -1,50 +1,54 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
- 
-class Solution_5658_보물상자비밀번호 {
-    static int N;
-    static int K;
-    public static void main(String args[]) throws Exception {
-        Scanner sc = new Scanner(System.in);
-        int T = sc.nextInt();
-        for (int test_case = 1; test_case <= T; test_case++) {
-            N = sc.nextInt();
-            K = sc.nextInt();
-            sc.nextLine();
-            char[] arr = new char[N];
-            arr = sc.nextLine().toCharArray();
-            ArrayList<String> al = new ArrayList<String>(); 
-            for (int k = 0; k < N/4; k++) {
-                // 1) arr : 4 등분 자른거 넣어준다 
-                for (int i = 0; i < N; i+= N/4) {
-                    String line = "";
-                    for (int j = 0; j < N/4; j++) {
-                        line += arr[i+j];
-                    }
-                    int len = al.size();
-                    boolean flag = true;
-                    for (int p = 0; p < len; p++) {
-                        if (al.get(p).equals(line)) { // 중복되는건 안 넣는다 
-                            flag = false;
-                            break;
-                        }
-                    }
-                    if (flag)
-                        al.add(line);
-                }
-                // 2) 시계방향 회전 - 밀어서 임의로 넣어줄 배열 필요함 
-                char[] temp = new char[N];
-                for (int i = 0; i < N; i++) {
-                    temp[(i+1)%N] = arr[i];
-                }
-                arr = temp;
-            }
-            int len = al.size();
-            Collections.sort(al);
-            String result = al.get(len - K);
-            int parseInt = Integer.parseInt(result, 16);
-            System.out.println("#"+test_case +" "+parseInt);
-        }
-    }
+
+public class Solution {
+	static int N;
+	static int K;
+	static char[] a;
+	static ArrayList<String> al;
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+		for (int test_case = 1; test_case <= T; test_case++) {
+			// 1. initialize 
+			N = sc.nextInt();
+			K = sc.nextInt();
+			a = new char[N];
+			sc.nextLine();
+			a = sc.nextLine().toCharArray();
+			al = new ArrayList<String>();
+			for (int turn = 0; turn < N/4; turn++) {
+				// 2. 중복 체크하며 넣기 
+				for (int i = 0; i < N; i += N/4) {
+					String line = "";
+					for (int j = 0; j < N/4 ; j++) {
+						line += a[i+j];
+					}
+					boolean check = false;
+					int len = al.size();
+					for (int p = 0;  p < len; p++) {
+						if (al.get(p).equals(line)) {
+							check = true;
+							break;
+						}
+					}
+					if (!check)
+						al.add(line);
+				}
+				// 3. 시계방향으로 돌리기 - 배열 주소복사는 위험하니까 그냥 값 넣어줘 
+				char[] temp = new char[N];
+				for (int i = 0; i < N; i++) {
+					temp[i] = a[(i+1)%N];
+				}
+				for (int i = 0; i < N; i++) {
+					a[i] = temp[i];
+				}
+			}
+			Collections.sort(al);
+			int idx = al.size() - K;
+			String result = al.get(idx);
+			System.out.println("#"+test_case+" "+Integer.parseInt(result, 16));
+		}
+	}
 }
