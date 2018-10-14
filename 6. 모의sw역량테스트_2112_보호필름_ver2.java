@@ -50,15 +50,15 @@ public class Solution {
 			for (int i = 0; i < len; i++) {
 				tempal.add(al.get(i));
 			}
-			// 조합 리스트에 담아줘야함 
+			// 조합 리스트에 담기
 			alList.add(tempal);
 			return;
 		}
 		if (idx >= 2) return;
 		al.add(arr[idx]);
-		go(idx, cnt + 1, mediCnt);
+		go(idx, cnt + 1, mediCnt); // 0 넣어 주고 - 계속 넣을수 있을 때까지 !!
 		al.remove(al.size() - 1);
-		go(idx + 1, cnt, mediCnt);
+		go(idx + 1, cnt, mediCnt); // 1 넣어 주고 
 	}
 	/*
 	examine() : 순열 돌린걸로 약품 처리 - 0, 1 해당하는 행 일괄적으로 약품 처리 후 검사 
