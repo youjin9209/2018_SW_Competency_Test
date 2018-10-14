@@ -45,6 +45,7 @@ public class Solution {
 	*/
 	public static void go(int idx, int cnt, int mediCnt) {
 		if (cnt == mediCnt) {
+			// 중간에 가다 변하면 안되니까 tempal 로 넣어줌 
 			ArrayList<Integer> tempal = new ArrayList<Integer>();
 			int len = al.size();
 			for (int i = 0; i < len; i++) {
