@@ -41,7 +41,27 @@ public class Solution {
 		return true;
 	}
 	/*
-	examine() : 순열 돌린걸로 약품 처리 
+	go () : 약품처리 횟수만큼 A(0), B(1) 조합 뽑는다 
+	*/
+	public static void go(int idx, int cnt, int mediCnt) {
+		if (cnt == mediCnt) {
+			ArrayList<Integer> tempal = new ArrayList<Integer>();
+			int len = al.size();
+			for (int i = 0; i < len; i++) {
+				tempal.add(al.get(i));
+			}
+			// 조합 리스트에 담아줘야함 
+			alList.add(tempal);
+			return;
+		}
+		if (idx >= 2) return;
+		al.add(arr[idx]);
+		go(idx, cnt + 1, mediCnt);
+		al.remove(al.size() - 1);
+		go(idx + 1, cnt, mediCnt);
+	}
+	/*
+	examine() : 순열 돌린걸로 약품 처리 - 0, 1 해당하는 행 일괄적으로 약품 처리 후 검사 
 	*/
 	public static boolean examine(int[] permuArr) {
 		do {
@@ -68,25 +88,6 @@ public class Solution {
 			}
 		} while(next_permutation(permuArr));
 		return false;
-	}
-	/*
-	go () : 약품처리 횟수만큼 A(0), B(1) 조합 뽑는다 
-	*/
-	public static void go(int idx, int cnt, int mediCnt) {
-		if (cnt == mediCnt) {
-			ArrayList<Integer> tempal = new ArrayList<Integer>();
-			int len = al.size();
-			for (int i = 0; i < len; i++) {
-				tempal.add(al.get(i));
-			}
-			alList.add(tempal);
-			return;
-		}
-		if (idx >= 2) return;
-		al.add(arr[idx]);
-		go(idx, cnt + 1, mediCnt);
-		al.remove(al.size() - 1);
-		go(idx + 1, cnt, mediCnt);
 	}
 	/*
 	colCheck() : 각 col에서 K만큼 연속한지 check -> A 먼저 체크하고 안되면 B 로 확인 
@@ -136,6 +137,7 @@ public class Solution {
 					boolean ok = false;
 					alList = new ArrayList<ArrayList<Integer>>();
 					go(0, 0, mediCnt);
+					// 조합 담아온거를 순열 돌린다 
 					permuArr = new int[D];
 					Arrays.fill(permuArr, 2);
 					int idx = 0;
