@@ -147,6 +147,7 @@ public class Solution {
 							permuArr[idx++] = a;
 						}
 						Arrays.sort(permuArr);
+						// 조합 된걸로 순열 돌리면서 약품처리 하고 검사해줌 
 						if (examine(permuArr)) {
 							ok = true;
 							break;
