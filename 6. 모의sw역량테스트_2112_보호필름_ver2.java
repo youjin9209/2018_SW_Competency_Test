@@ -135,6 +135,7 @@ public class Solution {
 						continue;
 				} else if (mediCnt >= 1) {
 					boolean ok = false;
+					// 조합 리스트 
 					alList = new ArrayList<ArrayList<Integer>>();
 					go(0, 0, mediCnt);
 					// 조합 담아온거를 순열 돌린다 
