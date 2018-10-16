@@ -1,7 +1,7 @@
 /*
 문제링크 
 https://www.acmicpc.net/problem/2206
-방문 여부를 따로 체크하지 않는 이유 잘 생각하기 
+방문 여부를 따로 체크하지 않는 이유 잘 생각하기 - 벽을 부쉈냐 / 아니냐 에 따라 달라짐 
 */
 import java.util.LinkedList;
 import java.util.Queue;
