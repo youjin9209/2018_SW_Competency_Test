@@ -53,6 +53,7 @@ public class Solution_2282_미생물격리 {
 								next_map[nx][ny].dir = map[i][j].dir;
 							}
 						} else {
+							// max에 초기값은 자기꺼 cnt 넣어야 하는거 조심 !!
 							next_map[nx][ny].cnt = map[i][j].cnt;
 							next_map[nx][ny].maxCnt = map[i][j].cnt;
 							next_map[nx][ny].dir = map[i][j].dir;
