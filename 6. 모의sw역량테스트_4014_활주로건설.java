@@ -1,159 +1,151 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
-public class Solution_4014_활주로건설 {
-	static int N;
-	static int X;
-	static int[][] map;
-	static boolean[][] rowFlag;
-	static boolean[][] colFlag;
-	public static boolean isRowDecreasing (int i, int j) {
+public class Solution {
+	static int N; // 지도 크기 
+	static int X; // 경사로 크기 
+	static int[][] map; // 지도 
+	static boolean[][] check; // 경사로 설치 여부 
+	public static boolean rowDecending(int x, int y) {
 		for (int p = 0; p < X; p++) {
-			if (j+p < N && (map[i][j] != map[i][j+p] || rowFlag[i][j+p])) {
+			if (check[x][y+p] || map[x][y] != map[x][y+p]) // 이미 경사로가 설치 되어있거나 연속하지 않을 경우 false return 
 				return false;
-			}
 		}
 		return true;
 	}
-	public static boolean isRowIncreasing (int i, int j) {
+	public static boolean rowAscending(int x, int y) {
 		for (int p = 0; p < X; p++) {
-			if (j-p >= 0 && (map[i][j] != map[i][j-p] || rowFlag[i][j-p])) {
+			if (check[x][y-p] || map[x][y] != map[x][y-p]) 
 				return false;
-			}
 		}
 		return true;
 	}
-	public static boolean isColDecreasing (int i, int j) {
+	public static boolean colDecending(int x, int y) {
 		for (int p = 0; p < X; p++) {
-			if (i+p < N && (map[i][j] != map[i+p][j] || colFlag[i+p][j])) {
+			if (check[x+p][y] || map[x+p][y] != map[x][y])
 				return false;
-			}
 		}
 		return true;
 	}
-	public static boolean isColIncreasing (int i, int j) {
+	public static boolean colAscending(int x, int y) {
 		for (int p = 0; p < X; p++) {
-			if (i-p >= 0 && (map[i][j] != map[i-p][j] || colFlag[i-p][j])) {
+			if (check[x-p][y] || map[x][y] != map[x-p][y]) 
 				return false;
-			}
 		}
 		return true;
 	}
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int T;
-		T=sc.nextInt();
-		for(int test_case = 1; test_case <= T; test_case++) {
+		T = sc.nextInt();
+		for (int test_case = 1; test_case <= T; test_case++) {
+			// 1) initialize 
 			N = sc.nextInt();
 			X = sc.nextInt();
 			map = new int[N][N];
-			int result = 0;
-			for (int i = 0; i < N; i++)
-				for (int j = 0; j < N; j++)
-					map[i][j] = sc.nextInt();
-			// 1) row check : -> 
-			rowFlag = new boolean[N][N];
 			for (int i = 0; i < N; i++) {
-				boolean row = true;
 				for (int j = 0; j < N; j++) {
-					// 내리막 
-					if (j-1 >= 0) {
-						if (map[i][j-1] > map[i][j] + 1) { // 차이가 2 이상일 때 
-							row = false;
-							break;
-						}
-						if (map[i][j-1] == map[i][j] + 1) { // 차이가 1일 때 
-							if (j+(X-1) > N-1) { // 경사로가 영역 밖 삐져나갈 때 
-								row = false;
-								break;
-							}
-							if (isRowDecreasing(i, j)) {
-								for (int q = 0 ; q < X; q++) { // 경사로 깔았으면 깐 거 표시해줘야함 : 중복되면 안돼 
-									rowFlag[i][j+q] = true;
-								}
-							} else if (!isRowDecreasing(i, j)) {
-								row = false;
-								break;
-							}
-						}
-					}
-					// 오르막 
-					if (j+1 < N) {
-						if (map[i][j] + 1 < map[i][j+1]) {
-							row = false;
-							break;
-						}
-						if (map[i][j] + 1 == map[i][j+1]) {
-							if (j-(X-1) < 0) {
-								row = false;
-								break;
-							}
-							if (isRowIncreasing(i, j)) {
-								for (int q = 0 ; q < X; q++) {
-									rowFlag[i][j-q] = true;
-								}
-							} else if (!isRowIncreasing(i, j)) {
-								row = false;
-								break;
-							}
-						}
-					}
-				}
-				if (row) {
-					result++;
+					map[i][j] = sc.nextInt();
 				}
 			}
-			// 2) col check 
-			colFlag = new boolean[N][N];
-			for (int j = 0; j < N; j++) {
-				boolean col = true;
-				for (int i = 0; i < N; i++) {
-					// 오르막 
-					if (i+1 < N) {
-						if (map[i][j] + 1 < map[i+1][j]) {
-							col = false;
-							break;
+			// 2) process 
+			int result = 0;
+			// 2-1) row check 
+			check = new boolean[N][N];
+			for (int i = 0; i < N; i++) {
+				boolean rowFlag = true;
+				for (int j = 0; j < N; j++) {
+					// row decending check 
+					if (j-1 >= 0) {
+						if (map[i][j-1] > map[i][j] + 1) {
+							rowFlag = false; break;
 						}
-						if (map[i][j] + 1 == map[i+1][j]) {
-							if (i-(X-1) < 0) {
-								col = false;
-								break;
+						if (map[i][j-1] == map[i][j] + 1) {
+							if (j+X > N) {
+								rowFlag = false; break;
 							}
-							if (isColIncreasing(i, j)){
-								for (int q = 0 ; q < X; q++) {
-									colFlag[i-q][j] = true;
+							boolean rowDecendingRslt = rowDecending(i, j);
+							if (rowDecendingRslt) {
+								for (int p = 0; p < X; p++) {
+									check[i][j+p] = true;
 								}
-							} else if (!isColIncreasing(i, j)) {
-								col = false;
-								break;
+							} else if (!rowDecendingRslt) {
+								rowFlag = false; break;
 							}
 						}
 					}
-					// 내리막 
+					// row ascending check  
+					if (j+1 < N) {
+						if (map[i][j+1] > map[i][j] + 1) {
+							rowFlag = false; break;
+						}
+						if (map[i][j+1] == map[i][j] + 1) {
+							if (j-X < -1) {
+								rowFlag = false; break;
+							}
+							boolean rowAscendingRslt = rowAscending(i, j);
+							if (rowAscendingRslt) {
+								for (int p = 0; p < X; p++) {
+									check[i][j-p] = true;
+								}
+							} else if (!rowAscendingRslt) {
+								rowFlag = false; break;
+							}
+						}
+					}
+				}
+				if (rowFlag) result++;
+			}
+			// 2-2) col check 
+			check = new boolean[N][N]; 
+			for (int j = 0; j < N; j++) {
+				boolean colFlag = true;
+				for (int i = 0; i < N; i++) {
+					// col decending check 
 					if (i-1 >= 0) {
 						if (map[i-1][j] > map[i][j] + 1) {
-							col = false;
-							break;
+							colFlag = false; break;
 						}
 						if (map[i-1][j] == map[i][j] + 1) {
-							if (i+(X-1) > N-1) {
-								col = false;
-								break;
+							if (i+X > N) {
+								colFlag = false; break;
 							}
-							if (isColDecreasing(i, j)) {
-								for (int q = 0 ; q < X; q++) {
-									colFlag[i+q][j] = true;
+							boolean colDecendingRslt = colDecending(i, j);
+							if (colDecendingRslt) {
+								for (int p = 0; p < X; p++) {
+									check[i+p][j] = true;
 								}
-							} else if (!isColDecreasing(i, j)) {
-								col = false;
-								break;
+							} else if (!colDecendingRslt) {
+								colFlag = false; break;
+							}
+						}
+					}
+					// col ascending check  
+					if (i+1 < N) {
+						if (map[i+1][j] > map[i][j] + 1) {
+							colFlag = false; break;
+						}
+						if (map[i+1][j] == map[i][j] + 1) {
+							if (i-X < -1) {
+								colFlag = false; break;
+							}
+							boolean colAscendingRslt = colAscending(i, j);
+							if (colAscendingRslt) {
+								for (int p = 0; p < X; p++) {
+									check[i-p][j] = true;
+								}
+							} else if (!colAscendingRslt) {
+								colFlag = false; break;
 							}
 						}
 					}
 				}
-				if (col) {
-					result++;
-				}
+				if (colFlag) result++;
 			}
+			// 3) get answer 
 			System.out.println("#"+test_case+" "+result);
 		}
 	}
