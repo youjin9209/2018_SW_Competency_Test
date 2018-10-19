@@ -11,7 +11,7 @@ class CCTV {
 	}
 }
 public class bf_5_4_감시_15683 {
-	static int[] dx = {0, 1, 0, -1}; // 우 하 좌 상  
+	static int[] dx = {0, 1, 0, -1}; 
 	static int[] dy = {1, 0, -1, 0};
 	static int[][] map;
 	static ArrayList<CCTV> cctv;
@@ -21,7 +21,7 @@ public class bf_5_4_감시_15683 {
 		int ni = x; int nj = y;
 		while (ni >= 0 && ni < N && nj >= 0 && nj < M) {
 			if (map[ni][nj] == 6) break;
-			temp[ni][nj] = map[x][y];
+			temp[ni][nj] = map[x][y]; // 영역 표시 
 			ni += dx[dir];
 			nj += dy[dir];
 		}
@@ -43,19 +43,19 @@ public class bf_5_4_감시_15683 {
 					check(temp, x, y, dir);
 				} else if (what == 2) {
 					check(temp, x, y, dir);
-					check(temp, x, y, (dir+2)%4);
+					check(temp, x, y, (dir+2)%4); // 180
 				} else if (what == 3) {
-					check(temp, x, y, dir);
-					check(temp, x, y, (dir+1)%4);
+					check(temp, x, y, dir); 
+					check(temp, x, y, (dir+1)%4); // 90
 				} else if (what == 4) {
 					check(temp, x, y, dir);
-					check(temp, x, y, (dir+1)%4);
-					check(temp, x, y, (dir+2)%4);
+					check(temp, x, y, (dir+1)%4); // 90
+					check(temp, x, y, (dir+2)%4); // 180
 				} else if (what == 5) {
 					check(temp, x, y, dir);
-					check(temp, x, y, (dir+1)%4);
-					check(temp, x, y, (dir+2)%4);
-					check(temp, x, y, (dir+3)%4);
+					check(temp, x, y, (dir+1)%4); // 90
+					check(temp, x, y, (dir+2)%4); // 180
+					check(temp, x, y, (dir+3)%4); // 270
 				}
 			}
 			int cnt = 0;
@@ -68,6 +68,7 @@ public class bf_5_4_감시_15683 {
 			return cnt;
 		}
 		int ans = 100;
+		// i: 0: 우, 1: 하, 2: 좌, 3: 상
 		for (int i = 0; i < 4; i++) {
 			cctv.get(index).dir = i;
 			int temp = go(index + 1);
