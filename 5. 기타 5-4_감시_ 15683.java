@@ -13,21 +13,21 @@ class CCTV {
 }
 public class Main {
 	static int N; // 세로 
-	static int M; // 가 
+	static int M; // 가로 
 	static int[][] map;
 	static int[] dx = {0, 1, 0, -1}; // 우, 하, 좌, 상
 	static int[] dy = {1, 0, -1, 0};
 	static ArrayList<CCTV> cctv; 
 	/* 
-	check() : 탐색하면서 자기영역 표시 (0을 지워나감 )
+	check() : 탐색하면서 자기영역 표시 (0을 지워나감) 
 	*/
 	static void check(int[][] temp, int x, int y, int dir) {
-		int ni = x; int nj = y;
-		while (ni >= 0 && ni < N && nj >= 0 && nj < M) {
-			if (map[ni][nj] == 6) break;
-			temp[ni][nj] = map[x][y]; // 영역 표시 
-			ni += dx[dir];
-			nj += dy[dir];
+		int nx = x + dx[dir];
+		int ny = y + dy[dir];
+		while (nx >= 0 && nx < N && ny >= 0 && ny < M) {
+			if (temp[nx][ny] == 6) break; // 벽만나면 break 
+			temp[nx][ny] = map[x][y]; // 영역 표시 
+			nx += dx[dir]; ny += dy[dir]; // 이동 
 		}
 	}
 	/*
@@ -52,21 +52,22 @@ public class Main {
 					check(temp, x, y, dir);
 				} else if (what == 2) {
 					check(temp, x, y, dir);
-					check(temp, x, y, (dir+2)%4); // 180 
+					check(temp, x, y, (dir+2)%4); // 180
 				} else if (what == 3) {
 					check(temp, x, y, dir);
 					check(temp, x, y, (dir+1)%4); // 90
 				} else if (what == 4) {
 					check(temp, x, y, dir);
 					check(temp, x, y, (dir+1)%4); // 90
-					check(temp, x, y, (dir+2)%4); // 180 
+					check(temp, x, y, (dir+2)%4); // 180
 				} else if (what == 5) {
 					check(temp, x, y, dir);
 					check(temp, x, y, (dir+1)%4); // 90
-					check(temp, x, y, (dir+2)%4); // 180 
+					check(temp, x, y, (dir+2)%4); // 180
 					check(temp, x, y, (dir+3)%4); // 270 
 				}
 			}
+			// 0 개수 취합 
 			int cnt = 0;
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < M; j++) {
@@ -77,15 +78,14 @@ public class Main {
 			return cnt;
 		}
 		// 2) go
-		int ans = 100;
-		// i-> 0: 우, 1: 하, 2: 좌, 3: 상 
+		int min = 100;
 		for (int i = 0; i < 4; i++) {
-			cctv.get(idx).dir = i;
-			int temp = go(idx + 1);
-			if (ans > temp)
-				ans = temp;
+			cctv.get(idx).dir = i; // 방향 설정 
+			int temp = go(idx + 1); // go (idx+1)
+			if (min > temp) // min 갱신 
+				min = temp;
 		}
-		return ans;
+		return min;
 	}
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
