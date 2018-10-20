@@ -16,7 +16,7 @@ public class Solution_5656_벽돌깨기 {
 		map[depth][x][y] = 0;
 		int ans = 1;
 		// 2. 깨러 간다 
-		for (int i = 0; i < siz; i++) {
+		for (int i = 1; i < siz; i++) {
 			for (int j = 0; j < 4; j++) {
 				int nx = x + i*dx[j];
 				int ny = y + i*dy[j];
