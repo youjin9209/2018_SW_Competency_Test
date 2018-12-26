@@ -89,6 +89,7 @@ public class Main {
 				}
 			}
 			int cnt = 0;
+			// 2) bfs 
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < N; j++) {
 					if (!check[i][j]) {
@@ -99,6 +100,7 @@ public class Main {
 				}
 			}
 			if (N*N == cnt) break;
+			// 3) map update 
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < N; j++) {
 					map[i][j] = temp[i][j];
